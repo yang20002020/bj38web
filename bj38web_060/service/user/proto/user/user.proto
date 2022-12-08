@@ -1,0 +1,22 @@
+syntax = "proto3";
+option go_package="./proto/user";
+package go.micro.srv.user;
+
+service User {
+	rpc SendSms(Request) returns (Response) {}
+
+}
+
+//传入 手机号 、 输入的图片验证码和对应的uuid到 后端  如果图片验证码输入正确 则 发送手机短信验证码，并把手机验证码存入redis中
+message Request {
+	string phone = 1;
+	string imgCode = 2;
+	string uuid = 3;
+}
+//返回 存入的结果信息
+message Response {
+	string errno = 1;
+	string errmsg = 2;
+}
+
+
