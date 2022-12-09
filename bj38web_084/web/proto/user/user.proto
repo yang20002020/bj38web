@@ -1,0 +1,69 @@
+syntax = "proto3";
+option go_package="./proto/user";
+package go.micro.srv.user;
+
+service User {
+	  rpc SendSms(Request) returns (Response) {};
+    rpc Register(RegReq)returns (Response) {}; //注册用户
+    rpc AuthUpdate(AuthReq)returns(AuthResp){}; //实名认证
+	  rpc GetUsrInfo(UserName)returns(UserInfoResp){}; // 获取用户信息
+}
+
+
+message Request {
+	string phone = 1;
+	string imgCode = 2;
+	string uuid = 3;
+}
+
+message Response {
+	string errno = 1;
+	string errmsg = 2;
+}
+
+message RegReq {
+ string mobile=1;
+ string password=2;
+ string sms_code=3;
+}
+
+//实名认证 输入端 对应数据库 user表
+message AuthReq{
+	string id_card = 1;
+	string real_name = 2;
+	string userName = 3;
+}
+//实名认证 输出端
+message AuthResp{
+	string errno = 1;
+	string errmsg = 2;
+}
+
+//根据 用户名 返回用户信息
+//  返回参数
+//{"data":{"avatar_url":"http://192.168.63.128:8080/group1/M00/00/00/wKg_gGOAZq6Abq7mAADe1y314UQ299.png",
+//         "id_card":"13120151224",
+//         "mobile":"15889317897",
+//         "name":"15889317897",
+//         "real_name":"yangzhang",
+//         "user_id":28},
+//  "errmsg":"成功","errno":"0"}
+//输入 参数
+
+message UserName {
+	string userName=1;
+}
+// 返回参数
+message UserInfoResp {
+	UserInfo data= 1;
+	string errmsg =2;
+	string errno =3;
+}
+message UserInfo {
+	string avatar_url=1;
+	string id_card=2;
+	string  mobile=3;
+	string name=4;
+	string  real_name=5;
+	string user_id=6;
+}
