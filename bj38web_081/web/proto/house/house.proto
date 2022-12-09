@@ -1,0 +1,88 @@
+syntax = "proto3";
+option go_package="./proto/house";
+package go.micro.srv.house;
+
+service House {
+	rpc PubHouse(Request) returns (Response) {} ; //发布房源信息
+	rpc GetHouseInfo(GetReq)returns(GetResp){}; //获取房源信息
+
+}
+
+ //  发布房源信息 传入参数
+ //   {
+ //      "title":"上奥世纪中心",
+ //      "price":"666",
+ //      "area_id":"5",
+ //      "address":"西三旗桥东建材城1号",
+ //      "room_count":"2",
+ //      "acreage":"60",
+ //      "unit":"2室1厅",
+ //      "capacity":"3",
+ //      "beds":"双人床2张",
+ //      "deposit":"200",
+ //      "min_days":"3",
+ //       "max_days":"0",
+ //       "facility":["1","2","3","7","12","14","16","17","18","21","22"]
+ //  }
+message Request {
+	    string acreage = 1;
+    	string address = 2;
+    	string area_id = 3;
+    	string beds = 4;
+    	string capacity = 5;
+    	string deposit = 6;
+    	repeated string facility = 7;
+    	string max_days = 8;
+    	string min_days = 9;
+    	string price = 10;
+    	string room_count = 11;
+    	string title = 12;
+    	string unit = 13;
+    	string userName = 14;
+}
+//发布房源信息 传出参数
+// {
+//    “errno”:"0",
+//    "errmsg":"成功"，
+//    “data”:{
+//     "house_id": "1"
+//    }
+// }
+
+message Response {
+	string errno = 1;
+    string errmsg = 2;
+    HouseData data = 3;
+}
+
+message HouseData{
+	string house_id = 1;
+}
+
+//获取房源信息 传入参数
+message GetReq{
+	string userName = 1;
+}
+
+//传出参数
+message GetResp{
+	string errno = 1;
+	string errmsg = 2;
+	GetData data = 3;
+}
+ //???
+message GetData{
+	repeated Houses houses = 1;
+}
+message Houses {
+	string address = 1;
+	string area_name = 2;
+	string ctime = 3;
+	int32 house_id = 4;
+	string img_url = 5;
+	int32 order_count = 6;
+	int32 price = 7;
+	int32 room_count = 8;
+	string title = 9;
+	string user_avatar = 10;
+}
